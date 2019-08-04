@@ -31,8 +31,8 @@ public class ProductCotroller extends HttpServlet {
                 break;
             case "search"://查询所有的产品
                 //判断是不是两个都没选或者两个都选上了
-                if (request.getParameter("productName")==null&& request.getParameter("productId")==null||
-                        request.getParameter("productId")!=null&&request.getParameter("productName")!=null){
+                if (request.getParameter("productName")==null&& request.getParameter("productIdName")==null||
+                        request.getParameter("productIdName")!=null&&request.getParameter("productName")!=null){
                     rs.setStatus(101);
                     rs.setMag("请选择根据什么进行查询");
                     break;
@@ -43,17 +43,21 @@ public class ProductCotroller extends HttpServlet {
                     break;
                 }
                 //判断是不是用ID查询
-                if (request.getParameter("productId")!=null){
-                    rs= SearchId(request);
+                if (request.getParameter("productIdName")!=null){
+                    rs= SearchIdName(request);
                     break;
                  }
                 break;
-
+            case"detail":
+                rs = SearchId(request);
+                break;
         }
         response.getWriter().write(rs.toString());//响应
     }
 
-//-----------------------------------------------获取所有产品信息-----------------------------------------------
+
+
+    //-----------------------------------------------获取所有产品信息-----------------------------------------------
     public ResponseCode ListDO(HttpServletRequest request){
         String pageNum = request.getParameter("pageNum");//获取页数
         String pageSize = request.getParameter("pageSize");//获取个数
@@ -62,10 +66,10 @@ public class ProductCotroller extends HttpServlet {
 
         return rs;//返回
     }
-//------------------------------------------------根据ID查询商品----------------------------------------------
-    private ResponseCode SearchId(HttpServletRequest request) {
-        String productId = request.getParameter("productId");
-        ResponseCode rs =  ps.selectOneId(productId);
+//---------------------------------------------根据ID查询商品名称----------------------------------------------
+    private ResponseCode SearchIdName(HttpServletRequest request) {
+        String productId = request.getParameter("productIdName");
+        ResponseCode rs =  ps.selectOneIdName(productId);
        return rs;
     }
 //------------------------------------------------根据名字查询商品---------------------------------------------
@@ -74,5 +78,11 @@ private ResponseCode SearchName(HttpServletRequest request) {
     ResponseCode rs =  ps.selectOneName(productName);
     return rs;
 }
+//---------------------------------------------根据ID查询商品详情------------------------------------------
+    private ResponseCode SearchId(HttpServletRequest request) {
+        String productId = request.getParameter("productId");
+        ResponseCode rs = ps.selectOneId(productId);
+        return rs;
+    }
 
 }

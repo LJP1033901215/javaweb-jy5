@@ -1,5 +1,6 @@
 package com.itdr.service;
 
+import com.itdr.common.Const;
 import com.itdr.common.ResponseCode;
 import com.itdr.dao.ProductDao;
 import com.itdr.pojo.Poiduct;
@@ -29,8 +30,8 @@ public class ProductService {
      rs.setData(li);
      return rs;
     }
-//----------------------------------------根据ID查询产品------------------------------------------------------
-    public ResponseCode selectOneId(String productId) {
+//----------------------------------------根据ID查询产品名称----------------------------------------------------
+    public ResponseCode selectOneIdName(String productId) {
      if (productId.equals("")){
          rs.setStatus(1);
          rs.setMag("输入的查询信息有误");
@@ -57,6 +58,18 @@ public class ProductService {
         if (li==null){
             rs.setStatus(3);
             rs.setMag("根据name无法找到商品");
+            return rs;
+        }
+        rs.setStatus(0);
+        rs.setData(li);
+        return rs;
+    }
+//----------------------------------------根据ID查询商品详情-----------------------------------------------
+    public ResponseCode selectOneId(String productId) {
+        Poiduct li = pd.selectOneId(productId);
+        if (li==null){
+            rs.setStatus(202);
+            rs.setMag("查询商品不存在");
             return rs;
         }
         rs.setStatus(0);
