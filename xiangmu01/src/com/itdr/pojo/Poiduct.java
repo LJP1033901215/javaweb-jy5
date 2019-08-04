@@ -6,7 +6,7 @@ public class Poiduct {
     private String Pname;//产品名字
     private String Psubtitle;//产品的副标题
     private String Pmainlmage;//产品的图片
-    private Integer Pstatus;//产品的上架是否
+    private Integer Pstatus=1;//产品的上架是否
     private Double Pprice;//价格
 
     @Override

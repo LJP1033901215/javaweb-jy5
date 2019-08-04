@@ -29,7 +29,7 @@ public class UsersCotroller extends HttpServlet {
         String pathInfo = request.getPathInfo();//返回地址中最后的一段地址名称
         String path = PathUtil.getPath(pathInfo);//返回字符串
 
-        ResponseCode rs = null;
+        ResponseCode rs = new ResponseCode();
         //判断是什么样的请求
         switch(path){
             case "list":

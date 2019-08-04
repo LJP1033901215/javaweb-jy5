@@ -35,16 +35,19 @@ public class ProductService {
      if (productId.equals("")){
          rs.setStatus(1);
          rs.setMag("输入的查询信息有误");
+         rs.setData(null);
          return rs;
      }
      Poiduct li =  pd.selectOneId(productId);
      if (li==null){
          rs.setStatus(3);
          rs.setMag("根据ID未找到任何商品");
+         rs.setData(null);
          return rs;
      }
      rs.setStatus(0);
      rs.setData(li.getPname());//只返回名字
+     rs.setMag(null);
      return rs;
     }
 //----------------------------------------根据名字查询产品------------------------------------------------------
@@ -52,16 +55,19 @@ public class ProductService {
         if (productName.equals("")){
             rs.setStatus(1);
             rs.setMag("输入的查询信息有误");
+//            rs.setData(null);
             return rs;
         }
         List<Poiduct> li =  pd.selectOneName(productName);
-        if (li==null){
+        if (li.size()==0){
             rs.setStatus(3);
+//            rs.setData(null);
             rs.setMag("根据name无法找到商品");
             return rs;
         }
         rs.setStatus(0);
         rs.setData(li);
+        rs.setMag(null);
         return rs;
     }
 //----------------------------------------根据ID查询商品详情-----------------------------------------------
@@ -70,10 +76,12 @@ public class ProductService {
         if (li==null){
             rs.setStatus(202);
             rs.setMag("查询商品不存在");
+            rs.setData(null);
             return rs;
         }
         rs.setStatus(0);
         rs.setData(li);
+        rs.setMag(null);
         return rs;
     }
 }

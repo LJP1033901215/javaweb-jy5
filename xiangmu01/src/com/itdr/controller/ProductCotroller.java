@@ -24,7 +24,7 @@ public class ProductCotroller extends HttpServlet {
         String pathInfo = request.getPathInfo();
         String path = PathUtil.getPath(pathInfo);
 //--------------------------------------获取地址后判断是什么请求------------------------------------------
-        ResponseCode rs =new ResponseCode();
+        ResponseCode rs = new ResponseCode();
         switch(path){
             case "list"://查询所有的产品
                 rs = ListDO(request);
@@ -59,10 +59,11 @@ public class ProductCotroller extends HttpServlet {
 
     //-----------------------------------------------获取所有产品信息-----------------------------------------------
     public ResponseCode ListDO(HttpServletRequest request){
+        ResponseCode rs = new ResponseCode();
         String pageNum = request.getParameter("pageNum");//获取页数
         String pageSize = request.getParameter("pageSize");//获取个数
 
-        ResponseCode rs = ps.selectAll(pageNum,pageSize);//调用方法传入信息
+        rs = ps.selectAll(pageNum,pageSize);//调用方法传入信息
 
         return rs;//返回
     }
