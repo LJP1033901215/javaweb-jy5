@@ -30,6 +30,18 @@ public class ResponseCode<T> {
     }
 
     //成功的时候返回状态码和成功的数据就行了
+    public  static <T> ResponseCode successRS(Integer status,T data){
+        ResponseCode rs = new ResponseCode();
+        rs.setStatus(status);
+        rs.setData(data);
+        return rs;
+    }
+    public  static <T> ResponseCode defeatdRS(Integer status,String mag){
+        ResponseCode rs = new ResponseCode();
+        rs.setStatus(status);
+        rs.setMag(mag);
+        return rs;
+    }
     //失败的时候只要返回状态码和失败的信息就可以了
 
     @Override

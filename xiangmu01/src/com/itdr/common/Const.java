@@ -1,6 +1,6 @@
 package com.itdr.common;
 
-public class Const {
+public  class Const {
     //用户相关的错误码
 
     //传入的参数为空或者是空白时的错误代号

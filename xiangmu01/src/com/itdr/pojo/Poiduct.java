@@ -8,8 +8,12 @@ public class Poiduct {
     private String Pmainlmage;//产品的图片
     private Integer Pstatus=1;//产品的上架是否
     private Double Pprice;//价格
+    private Integer Pstick;//库存数量
+
+
 
     @Override
+
     public String toString() {
         return "Priduct{" +
                 "Pid=" + Pid +
@@ -76,5 +80,12 @@ public class Poiduct {
 
     public void setPprice(Double pprice) {
         Pprice = pprice;
+    }
+    public Integer getPstick() {
+        return Pstick;
+    }
+
+    public void setPstick(Integer pstick) {
+        Pstick = pstick;
     }
 }

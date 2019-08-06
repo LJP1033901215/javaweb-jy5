@@ -33,8 +33,7 @@ public class ProductCotroller extends HttpServlet {
                 //判断是不是两个都没选或者两个都选上了
                 if (request.getParameter("productName")==null&& request.getParameter("productIdName")==null||
                         request.getParameter("productIdName")!=null&&request.getParameter("productName")!=null){
-                    rs.setStatus(101);
-                    rs.setMag("请选择根据什么进行查询");
+                    rs = ResponseCode.defeatdRS(101,"请选择根据什么进行查询");
                     break;
                 }
                 //判断是不是用名字进行查询
@@ -51,6 +50,12 @@ public class ProductCotroller extends HttpServlet {
             case"detail":
                 rs = SearchId(request);
                 break;
+            case"set_sale_status":
+                rs = Set_sale_status(request);
+                break;
+            case"save":
+                rs = Save(request);
+                break;
         }
         response.getWriter().write(rs.toString());//响应
     }
@@ -62,9 +67,7 @@ public class ProductCotroller extends HttpServlet {
         ResponseCode rs = new ResponseCode();
         String pageNum = request.getParameter("pageNum");//获取页数
         String pageSize = request.getParameter("pageSize");//获取个数
-
         rs = ps.selectAll(pageNum,pageSize);//调用方法传入信息
-
         return rs;//返回
     }
 //---------------------------------------------根据ID查询商品名称----------------------------------------------
@@ -85,5 +88,26 @@ private ResponseCode SearchName(HttpServletRequest request) {
         ResponseCode rs = ps.selectOneId(productId);
         return rs;
     }
+//-------------------------------------------根据ID修改产品的上下架-------------------------------------------
+    private ResponseCode Set_sale_status(HttpServletRequest request) {
+        String productId = request.getParameter("productId");//获取前台传过来的值
+        String status = request.getParameter("status");//获取前台传来的值
+        ResponseCode rs = ps.Set_sale_status(productId,status);
+        return rs;
+    }
+//---------------------------------------------修改商品或更新商品-----------------------------------------------
+    private ResponseCode Save(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        String categoryId = request.getParameter("categoryId");
+        String name = request.getParameter("name");
+        String subtitle = request.getParameter("subtitle");
+        String mainImage = request.getParameter("mainImage");
+        String price = request.getParameter("price");
+        String stock = request.getParameter("stock");
+        String status = request.getParameter("status");
+        ResponseCode rs = ps.Save(id,categoryId,name,subtitle,mainImage,price,stock,status);
+        return rs;
+    }
+
 
 }
