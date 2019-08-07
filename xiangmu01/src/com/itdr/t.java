@@ -25,6 +25,7 @@ class Test {
         }
     }
     static class B extends A{
+
         public B() {
             super(5);
             setValue(getValue() - 3);

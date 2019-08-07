@@ -39,12 +39,12 @@ public class JurisDictionFilter implements Filter {
             resp.getWriter().write(rs.toString());
             return;
         }
-        //无意义
-//        if (user.getUyhlx()!=1 ){
-//            rs.setStatus(3);
-//            rs.setMag("没有操作权限");
-//            resp.getWriter().write(rs.toString());
-//        }
+//        无意义
+        if (user.getUyhlx()!=1 ){
+            rs.setStatus(3);
+            rs.setMag("没有操作权限");
+            resp.getWriter().write(rs.toString());
+        }
         //若没有问题就放行
         //所有请求被拦截后，通过下面的方法进行放行
         chain.doFilter(req, resp);

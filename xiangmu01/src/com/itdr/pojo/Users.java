@@ -1,7 +1,7 @@
 package com.itdr.pojo;
 //创建实体类，实体类中的名称和数据库中的名称相同。
 public class Users {
-    private Integer id;
+    private Integer uid;
     private String uname;
     private String upwd;
     private String udh;
@@ -12,7 +12,7 @@ public class Users {
     @Override
     public String toString() {
         return "Users{" +
-                "id=" + id +
+                "id=" + uid +
                 ", uname='" + uname + '\'' +
                 ", upwd='" + upwd + '\'' +
                 ", udh='" + udh + '\'' +
@@ -22,11 +22,11 @@ public class Users {
     }
 
     public Integer getId() {
-        return id;
+        return uid;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.uid = id;
     }
 
     public String getUname() {
