@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "ProductFilter",value = "/manage/product/*")
 public class ProductFilter implements Filter {
+    //商品的过滤器
     public void destroy() {
     }
     ResponseCode rs = new ResponseCode();//创建返回时参数

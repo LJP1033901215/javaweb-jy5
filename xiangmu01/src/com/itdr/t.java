@@ -1,7 +1,14 @@
 package com.itdr;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
+
 class Test {
     public static void main(String [] args){
-        System.out.println(new B().getValue());
+        int a = 1;
+        nn(a);
+        System.out.println(a);
+//        System.out.println(new B().getValue());
     }
     static class A{
         protected int value;
@@ -33,5 +40,9 @@ class Test {
         public void setValue(int value){
             super.setValue(2 * value);
         }
+    }
+    public static void nn(int a){
+        a = 10;
+
     }
 }

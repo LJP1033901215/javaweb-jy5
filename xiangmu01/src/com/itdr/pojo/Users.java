@@ -9,24 +9,25 @@ public class Users {
     private Integer uyhlx = 0 ;
     //如果被封号，就会变成1 ，如果没有被封号就是0
     private Integer uzc = 0;
+
     @Override
     public String toString() {
         return "Users{" +
-                "id=" + uid +
+                "uid=" + uid +
                 ", uname='" + uname + '\'' +
                 ", upwd='" + upwd + '\'' +
                 ", udh='" + udh + '\'' +
-                ", uthlx=" + uyhlx +
+                ", uyhlx=" + uyhlx +
                 ", uzc=" + uzc +
                 '}';
     }
 
-    public Integer getId() {
+    public Integer getUid() {
         return uid;
     }
 
-    public void setId(Integer id) {
-        this.uid = id;
+    public void setUid(Integer uid) {
+        this.uid = uid;
     }
 
     public String getUname() {
