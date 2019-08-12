@@ -28,7 +28,7 @@ public class ClassifyFilter implements Filter {
             resp.getWriter().write(rs.toString());
             return;
         }
-        if (user.getUyhlx()!=1){
+        if (!user.getUyhlx().equals("1")){
             rs.setStatus(1);
             rs.setMag("访问的权限不够");
             resp.getWriter().write(rs.toString());

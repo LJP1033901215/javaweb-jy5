@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>liangix </title>
+    <link rel="stylesheet" href="../css/Order.css">
+</head>
+<body>
+   <div id="A">
+       <span style="color:#7A7A7A">&ensp;主页 /</span><span  style="color:#7A7A7A"> &ensp;订单 /</span><span>&ensp; 订单列表 </span>
+   </div>
+   <div id="B">
+       <div id="BA"><h1>订 单 管 理 </h1> </div>
+       <div id="BB">
+           <div id="BBA">
+               <table id="BBBAA"  border="0">
+                   <tr id="BBBAB">
+                       <th>订单号</th>
+                       <th>支付金额</th>
+                       <th>支付类型说明</th>
+                       <th>邮费</th>
+                       <th>状态</th>
+                       <th>状态</th>
+                       <th>状态详情</th>
+                       <th>发货ID</th>
+                       <th>操作账户</th>
+                   </tr>
+               </table>
+           </div>
+       </div>
+   </div>
+</body>
+<script src="../js/jquery-3.3.1.js"></script>
+<script>
+    $(function () {
+        $.get(
+            "/manage/order/list.do",
+            function (dl) {
+                if (dl.status!==0){
+                    alert(dl.mag);
+                } else{
+                    for (var i = 0; i < dl.data.length; i++) {
+                      if (dl.data[i].status===1) {
+                          var qw = "已发货";
+                          var qq = "已发货"
+                      }else{
+                          qw="未发货";
+                          qq="发货"
+                      }
+                        var a = "<tr><td>"
+                            +dl.data[i].orderNo+"</td><td>"//ID
+                            +dl.data[i].payment+"</td><td>"//金额
+                            +dl.data[i].paymentType+"</td><td>"//支付类型
+                            +dl.data[i].paymentTypeDesc+"</td><td>"//支付说明
+                            +dl.data[i].postage+"</td><td>"//邮费
+                            +qw+"</td><td>"//状态
+                            +dl.data[i].statusDesc+"</td><td>"//状态解释
+                            +dl.data[i].shippingId+"</td><td>"+//单号
+                            "<button type='button' class='SX' name='"+qq+"' value='"+dl.data[i].orderNo+"'  style=\"background-color: red\" onclick='javascrtpt:window.location.href=\"Order.html\"'>"+qq+"</button>"+
+                            "<button type='button' class='XX' value='"+dl.data[i].orderNo+"' style=\"background-color: black\" onclick='javascrtpt:window.location.href=\"Order.html\"'>详情</button >"+"</td></tr>";
+                        $("#BBBAA").append(a);
+
+                    }
+                }
+            },"json"
+        )
+    });
+    //上架按钮
+    $("#BBBAA").on('click', '.SX',function(){
+        var dd = $(this).val();
+        var da = $(this).attr("name");
+        if (da ==="发货") {
+            var aa = 1;
+            // alert(aa)
+        }else {
+            aa = 0 ;
+            // alert(aa)
+    }
+        $.post(
+            "/manage/order/send_goods.do",
+            {orderNo:dd,status:aa},
+            function (aa) {
+                if (aa.data === 1) {
+                    alert("成功了")
+                }else {
+                    alert("失败了")
+                }
+            }
+        )
+    });
+    // //启用按钮
+    // $("#BBBAA").on('click', '.XX',function(){
+    //     alert($(this).val());
+    //     var dd = $(this).val();
+    //     $.post(
+    //         "/manage/user/set_sale_status.do",
+    //         {uid:dd},
+    //         function (aa) {
+    //             if (aa.data === 1) {
+    //                 alert("成功了")
+    //             }else {
+    //                 alert("失败了")
+    //             }
+    //         }
+    //     )
+    // });
+
+    // $("#name0").click(function () {
+    //     alert("sadsada")
+    //   var dd = $("#name0").val()
+    // $.get(
+    //     "/manage/user/disableuser.do",
+    //     {uid:$("#name0").val()},
+    //     function (dl) {
+    //         if (dl.data === 1){
+    //             alert("成功了")
+    //         } else{
+    //             alert("失败了")
+    //         }
+    //     }
+    // )
+    // });
+
+</script>
+</html>

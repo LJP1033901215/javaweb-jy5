@@ -28,7 +28,7 @@ public class UserService {
     public ResponseCode selectOne(String username, String password) {
         ResponseCode rs = new ResponseCode();
         if(username==null ||username.equals("")||password==null||password.equals("")){//进行非空判断
-            rs = ResponseCode.defeatdRS(Const.USER_PARAMETER_CODE,Const.USER_PARAMETER_MSG);
+            rs = ResponseCode.defeatdRS(Const.USER_PARAMETER_CODE,"账号或密码错误");
             return rs;
         }
         //出查询是否有相同的名字和密码
@@ -39,7 +39,7 @@ public class UserService {
             return rs;
         }
         //判断是不是管理员，有没有权限
-        if (u.getUyhlx()!=1) {
+        if (!u.getUyhlx().equals("1")) {
             rs = ResponseCode.defeatdRS(2, "没有操作权限");
             return rs;
         }
@@ -60,7 +60,7 @@ public class UserService {
         }
 
         if (uids==null||uids.equals("")){//判断uid传入的数据是不是为空
-            rs = ResponseCode.defeatdRS(Const.USER_PARAMETER_CODE,Const.USER_PARAMETER_MSG);
+            rs = ResponseCode.defeatdRS(Const.USER_PARAMETER_CODE,"账户或密码错误");
             return rs;
         }
  //-------------------------判断获取的用户的信息是不是有问题------------------------------------
@@ -68,7 +68,7 @@ public class UserService {
         if (u==null){//判断输入的用户是不是存在
             rs = ResponseCode.defeatdRS(Const.USER_NONENTITY_CODE,Const.USER_NONENTITY_MSG);
             return rs;
-        }if (u.getUzc()==1){//判断用户是不是已经被禁用
+        }if (u.getUzc().equals("1")){//判断用户是不是已经被禁用
             rs = ResponseCode.defeatdRS(Const.USER_DISABLE_CODE,Const.USER_DISABLE_MSG);
             return rs;
         }
@@ -82,5 +82,17 @@ public class UserService {
         rs = ResponseCode.successRS(0,row);
         return rs;
     }
- //-------------------------------------------------------------------------------------------
+//开起用户ID的方法
+    public ResponseCode noselectOne(String uids) {
+        ResponseCode rs = new ResponseCode();//创建一个统一输出的类的对象
+        Integer uid = new Integer(uids);
+        Integer row = ud.noupdateByUid(uid);
+        if (row<=0){
+            rs = ResponseCode.defeatdRS(Const.USER_BUAT_CODE,"用户启用失败");
+            return rs;
+        }
+        rs = ResponseCode.successRS(0,row);
+        return rs;
+    }
+    //-------------------------------------------------------------------------------------------
 }

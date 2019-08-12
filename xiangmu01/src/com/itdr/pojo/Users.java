@@ -6,9 +6,10 @@ public class Users {
     private String upwd;
     private String udh;
     //权限，如果为1 则是管理员，如果是0 则不是管理员
-    private Integer uyhlx = 0 ;
+    private String uyhlx = "0" ;
     //如果被封号，就会变成1 ，如果没有被封号就是0
-    private Integer uzc = 0;
+    private String uzc = "0";
+
 
     @Override
     public String toString() {
@@ -17,9 +18,24 @@ public class Users {
                 ", uname='" + uname + '\'' +
                 ", upwd='" + upwd + '\'' +
                 ", udh='" + udh + '\'' +
-                ", uyhlx=" + uyhlx +
-                ", uzc=" + uzc +
+                ", uyhlx='" + uyhlx + '\'' +
+                ", uzc='" + uzc + '\'' +
                 '}';
+    }
+
+    public String getUyhlx() {
+        return uyhlx;
+    }
+
+    public void setUyhlx(String uyhlx) {
+        this.uyhlx= uyhlx;
+//        if (uyhlx.equals("1")){
+//            this.uyhlx ="普通管理员";
+//        }else if (uyhlx.equals("2")){
+//            this.uyhlx ="超级管理员";
+//        }else {
+//            this.uyhlx="普通用户";
+//        }
     }
 
     public Integer getUid() {
@@ -54,21 +70,11 @@ public class Users {
         this.udh = udh;
     }
 
-    public Integer getUyhlx() {
-        return uyhlx;
-    }
-
-    public void setUyhlx(Integer uyhlx) {
-        this.uyhlx = uyhlx;
-    }
-
-    public Integer getUzc() {
+    public String getUzc() {
         return uzc;
     }
 
-    public void setUzc(Integer uzc) {
+    public void setUzc(String uzc) {
         this.uzc = uzc;
     }
-
-
 }

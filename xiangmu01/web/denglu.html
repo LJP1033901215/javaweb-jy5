@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>睿乐GO登陆测试1.0</title>
+    <link rel="stylesheet" href="css/denglu.css">
+</head>
+<body>
+<!--<div style="width: 100%;height: 25%;display: flex;justify-content: center;background-color: #a6e22e;align-items: flex-end;color: white;font-size: 40px">-->
+   <!--<h1>睿乐GO后台管理工具</h1>-->
+<!--</div>-->
+<!--<div style="width: 100%;height: 75%;display: flex;justify-content: center;background-color: #74c6ec">-->
+    <!--<div id="A"></div>-->
+<!--</div>-->
+
+<div id="A">
+    <div id="B">
+        <div id="BA">睿 乐 GO 后 台 管 理 系 统</div>
+        <div id="BB"><!--—简单却不"简单"--></div>
+    </div>
+    <div id="C">
+        <div id="CA">
+            <div id="CAA"><div id="CAAA">Welcome to login </div></div>
+            <div class="CAB">
+                <div class="CABA">
+                    <div class="CABAA">
+                        <img src="imgs/登陆.png" alt="">
+                    </div>
+                    <div class="CABAB">
+                        <input type="text" placeholder="请输入您的账户" name="username"  id="UN">
+                    </div>
+                </div>
+                <!--<div class="CABB"></div>-->
+            </div>
+            <div class="CAB">
+                <div class="CABA">
+                    <div class="CABAA">
+                        <img src="imgs/锁子.png" alt="">
+                    </div>
+                    <div class="CABAB">
+                        <input type="password" placeholder="请输入您的密码" name="password" id="PS">
+                    </div>
+                </div>
+                <!--<div class="CABB"></div>-->
+            </div>
+            <div id="D"></div>
+            <div id="CAC">
+                <input type="submit" value="登录" id="CACA">
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+</body>
+<script src="js/jquery-3.3.1.js"></script>
+<script>
+    // $("#CACA").click(setTimeout(function () {
+    //     $("#C").slideUp();
+    // },300));
+    $("#CACA").click(function () {
+        var uname = $("#UN").val();
+        var psd = $("#PS").val();
+        setTimeout(function () {
+            $("#C").fadeOut();//点击时淡出
+            $("#BA").fadeOut();//点击时淡出
+        },0);
+         $.post(
+         "/manage/user/login.do",
+             {username: uname,password: psd},
+             function (dt) {
+             if (dt.status!==0){
+                 $("#D").empty();
+                 setTimeout(function () {
+                     $("#C").fadeIn();//实现淡入的效果
+                     $("#BA").fadeIn();//实现淡入的效果
+                     $("#D").append(dt.mag)//设置添加的错误信息
+                 },500);
+             }else{
+                 setTimeout(function () {
+                     $("#C").fadeOut();
+                     $("#BA").fadeIn();//实现淡入的效果
+                     window.location.href="/one.jsp"//跳转到主页
+                     // window.open("/one.html")
+                 },500);
+
+
+             }
+                 
+             }
+         )
+    })
+
+</script>
+</html>

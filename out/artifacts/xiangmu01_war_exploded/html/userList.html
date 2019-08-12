@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>liangix </title>
+    <link rel="stylesheet" href="../css/userList.css">
+</head>
+<body>
+   <div id="A">
+       <span style="color:#7A7A7A">&ensp;主页 /</span><span  style="color:#7A7A7A"> &ensp;用户 /</span><span>&ensp; 用户列表 </span>
+   </div>
+   <div id="B">
+       <div id="BA"><h1>用 户 管 理 </h1> </div>
+       <div id="BB">
+           <div id="BBA">
+               <table id="BBBAA"  border="0">
+                   <tr id="BBBAB">
+                       <th>用户ID</th>
+                       <th>用户姓名</th>
+                       <th>用户电话</th>
+                       <th>用户权限</th>
+                       <th>用户状态</th>
+                       <th>操作账户</th>
+                   </tr>
+               </table>
+           </div>
+       </div>
+   </div>
+</body>
+<script src="../js/jquery-3.3.1.js"></script>
+<script>
+    $(function () {
+        $.get(
+            "/manage/user/list.do",
+            function (dl) {
+                if (dl.status!==0){
+                    alert(dl.mag);
+                } else{
+                    for (var i = 0; i < dl.data.length; i++) {
+                        if (dl.data[i].uyhlx==="1"){//判断身份
+                            var c ="管理员";
+                        }else{
+                             c ="普通用户";
+                        }
+                        if (dl.data[i].uzc==="0"){//判断状态
+                            var d = "正常"
+                        } else{
+                            d = "禁用"
+                        }
+                        var a = "<tr><td>"
+                            +dl.data[i].uid+"</td><td>"
+                            +dl.data[i].uname+"</td><td>"
+                            +dl.data[i].udh+"</td><td>"
+                            +c+"</td><td>"
+                            +d+"</td><td>"+
+                            "<button type='button' class='JY' value='"+dl.data[i].uid+"'  style=\"background-color: red\" onclick='javascrtpt:window.location.href=\"userList.html\"'>禁用</button>"+
+                            "<button type='button' class='QY' value='"+dl.data[i].uid+"' style=\"background-color: black\" onclick='javascrtpt:window.location.href=\"userList.html\"'>启用</button >"+"</td></tr>";
+                        $("#BBBAA").append(a);
+                    }
+                }
+            },"json"
+        )
+    });
+    //禁用按钮
+    $("#BBBAA").on('click', '.JY',function(){
+        var dd = $(this).val();
+        $.post(
+            "/manage/user/disableuser.do",
+            {uid:dd},
+            function (aa) {
+                if (aa.data.status === 0) {
+                    alert("成功了")
+                }else {
+                    alert("失败了")
+                }
+            }
+        )
+    });
+    //启用按钮
+    $("#BBBAA").on('click', '.QY',function(){
+        var dd = $(this).val();
+        $.post(
+            "/manage/user/nodisableuser.do",
+            {uid:dd},
+            function (aa) {
+                if (aa.data.status=== 0) {
+                    alert("成功了")
+                }else {
+                    alert("失败了")
+                }
+            }
+        )
+    });
+
+    // $("#name0").click(function () {
+    //     alert("sadsada")
+    //   var dd = $("#name0").val()
+    // $.get(
+    //     "/manage/user/disableuser.do",
+    //     {uid:$("#name0").val()},
+    //     function (dl) {
+    //         if (dl.data === 1){
+    //             alert("成功了")
+    //         } else{
+    //             alert("失败了")
+    //         }
+    //     }
+    // )
+    // });
+
+</script>
+</html>

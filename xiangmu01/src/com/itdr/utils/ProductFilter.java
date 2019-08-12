@@ -34,7 +34,7 @@ public class ProductFilter implements Filter {
             resp.getWriter().write(rs.toString());
             return;
         }
-        if (user.getUyhlx()!=1){
+        if (!user.getUyhlx().equals("1")){
             rs.setStatus(Const.USER_NOT_JURISDICTION_CODE);
             rs.setMag(Const.USER_NOT_JURISDICTION_MSG);
             resp.getWriter().write(rs.toString());

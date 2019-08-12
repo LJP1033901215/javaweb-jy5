@@ -2,6 +2,7 @@ package com.itdr.controller;
 
 import com.itdr.common.ResponseCode;
 import com.itdr.service.ClassifyService;
+import com.itdr.utils.JsonUtils;
 import com.itdr.utils.PathUtil;
 import com.itdr.utils.PoolUtil;
 
@@ -35,7 +36,8 @@ public class ClassifyCoteroller extends HttpServlet {
                 rs = categorysetOne(request);
                 break;
         }
-        response.getWriter().write(rs.toString());
+        response.setContentType("text/json;charset=utf-8");
+        response.getWriter().write(JsonUtils.obj2String(rs));
     }
 
 

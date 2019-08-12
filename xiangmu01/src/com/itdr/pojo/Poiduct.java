@@ -11,11 +11,9 @@ public class Poiduct {
     private Integer Pstick;//库存数量
 
 
-
     @Override
-
     public String toString() {
-        return "Priduct{" +
+        return "Poiduct{" +
                 "Pid=" + Pid +
                 ", PcategoruID=" + PcategoruID +
                 ", Pname='" + Pname + '\'' +
@@ -23,6 +21,7 @@ public class Poiduct {
                 ", Pmainlmage='" + Pmainlmage + '\'' +
                 ", Pstatus=" + Pstatus +
                 ", Pprice=" + Pprice +
+                ", Pstick=" + Pstick +
                 '}';
     }
 

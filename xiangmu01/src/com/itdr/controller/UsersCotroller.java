@@ -4,6 +4,7 @@ import com.itdr.common.Const;
 import com.itdr.common.ResponseCode;
 import com.itdr.pojo.Users;
 import com.itdr.service.UserService;
+import com.itdr.utils.JsonUtils;
 import com.itdr.utils.PathUtil;
 
 import javax.servlet.ServletException;
@@ -34,26 +35,31 @@ public class UsersCotroller extends HttpServlet {
         switch(path){
             case "list":
                 //如果是获得用户列表的请求，我就调用下面的方法
-//                rs = listDO(request);
-                listDO(request,response);
+                rs = listDO(request);
+
                 break;
             case"login":
-//                rs = loginDo(request);
-                loginDo(request,response);
+                rs = loginDo(request);
+//                loginDo(request,response);
                 break;
             case"disableuser":
                 rs = disableuserDo(request);
                 break;
+            case"nodisableuser":
+                rs = nodisableuserDo(request);
+                break;
+//            case"Sessionone":
+//                rs = Sessionone(request);
+//                break;
         }
         //返回响应数据
-//        response.getWriter().write(rs.toString());//返回
+        response.setContentType("text/json;charset=utf-8");
+        response.getWriter().write(JsonUtils.obj2String(rs));
+//       response.getWriter().write(rs.toString());//返回
 
     }
-
-
-
     //获取所有用户列表的请求
-    private void listDO(HttpServletRequest request ,HttpServletResponse response){
+    private ResponseCode listDO(HttpServletRequest request ){
         ResponseCode rs = new ResponseCode();//创建了ResponseCode的对象
 
 //        HttpSession session = request.getSession();//获取session的状态
@@ -65,18 +71,12 @@ public class UsersCotroller extends HttpServlet {
 
         rs = us.selectAll(pageSize, pageNum);//获取所有的用户放入到封装的方法类中统一返回
         request.setAttribute("uli",rs);//将数据存放在请求的域对象内部
-        try {//通过转发将数据转发出去
-            request.getRequestDispatcher("/WEB-INF/UserList.jsp").forward(request,response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         //调用业务层处理业务
-//        return rs;
+        return rs;
     }
     //用户登陆的方法
-    private void loginDo(HttpServletRequest request,HttpServletResponse response){
+    private ResponseCode loginDo(HttpServletRequest request){
         //获取参数
         String username = request.getParameter("username");//通过请求向前端页面获取信息
         String password = request.getParameter("password");//通过请求向前端页面获取名字
@@ -84,18 +84,9 @@ public class UsersCotroller extends HttpServlet {
         //获取session对象
         HttpSession session = request.getSession();//获取Session的状态
         session.setAttribute("user",rs.getData());//将session登陆后的信息放入到页面中
-        try {
-            //重定向不可以进入WEB-INF
-//            response.sendRedirect("WEB-INF/one.jsp");
-            //转发就可以进入WEB-INF
-        request.getRequestDispatcher("/WEB-INF/home.jsp").forward(request,response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //转发可以进入WEB-INF中
 
         //调用业务层处理业务
-//        return rs;
+       return rs;
     }
     //禁用用户的方法
     private ResponseCode disableuserDo(HttpServletRequest request) {
@@ -107,11 +98,31 @@ public class UsersCotroller extends HttpServlet {
             rs =  ResponseCode.defeatdRS(3,"当前未登录");
             return rs;
         }
-        if (users.getUyhlx()!=1){//判断Session的返回数据中用户权限是不是够，若不够则返回错误
+        if (!users.getUyhlx().equals("1")){//判断Session的返回数据中用户权限是不是够，若不够则返回错误
             rs =  ResponseCode.defeatdRS(3,"访问权限不够");
             return rs;
         }//如果没有问题则返回禁用对象的信息。
+        System.out.println(uid);
+        rs.setStatus(0);
         return rs;
 
     }
+    //启用的方法
+    private ResponseCode nodisableuserDo(HttpServletRequest request) {
+        String uid = request.getParameter("uid");
+        ResponseCode rs = us.noselectOne(uid);
+        //如果没有问题则返回禁用对象的信息。
+        rs.setStatus(0);
+        return rs;
+    }
+
+//
+// 获得Session的方法
+//    private ResponseCode Sessionone(HttpServletRequest request) {
+//        ResponseCode rs = new ResponseCode();
+//        HttpSession session = request.getSession();
+//        Users user = (Users) session.getAttribute("user");
+//        rs.setData(user);
+//        return rs;
+//    }
 }

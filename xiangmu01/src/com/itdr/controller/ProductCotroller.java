@@ -2,6 +2,7 @@ package com.itdr.controller;
 
 import com.itdr.common.ResponseCode;
 import com.itdr.service.ProductService;
+import com.itdr.utils.JsonUtils;
 import com.itdr.utils.PathUtil;
 
 import javax.servlet.ServletException;
@@ -29,7 +30,7 @@ public class ProductCotroller extends HttpServlet {
             case "list"://查询所有的产品
                 rs = ListDO(request);
                 break;
-            case "search"://查询所有的产品
+            case "searcho"://查询所有的产品
                 //判断是不是两个都没选或者两个都选上了
                 if (request.getParameter("productName")==null&& request.getParameter("productIdName")==null||
                         request.getParameter("productIdName")!=null&&request.getParameter("productName")!=null){
@@ -47,6 +48,9 @@ public class ProductCotroller extends HttpServlet {
                     break;
                  }
                 break;
+            case "search"://查询所有的产品
+                rs=SearchName(request);
+                break;
             case"detail":
                 rs = SearchId(request);
                 break;
@@ -57,7 +61,8 @@ public class ProductCotroller extends HttpServlet {
                 rs = Save(request);
                 break;
         }
-        response.getWriter().write(rs.toString());//响应
+        response.setContentType("text/json;charset=utf-8");
+        response.getWriter().write(JsonUtils.obj2String(rs));
     }
 
 
@@ -92,6 +97,8 @@ private ResponseCode SearchName(HttpServletRequest request) {
     private ResponseCode Set_sale_status(HttpServletRequest request) {
         String productId = request.getParameter("productId");//获取前台传过来的值
         String status = request.getParameter("status");//获取前台传来的值
+        System.out.println(productId);
+        System.out.println(status);
         ResponseCode rs = ps.Set_sale_status(productId,status);
         return rs;
     }

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>liangix </title>
+    <link rel="stylesheet" href="../css/ProductList.css">
+</head>
+<body>
+   <div id="A">
+       <span style="color:#7A7A7A">&ensp;主页 /</span><span  style="color:#7A7A7A"> &ensp;商品 /</span><span>&ensp; 商品列表 </span>
+   </div>
+   <div id="B">
+       <div id="BA"><h1>商 品 管 理 </h1> </div>
+       <div id="BB">
+           <div id="BBA">
+               <table id="BBBAA"  border="0">
+                   <tr id="BBBAB">
+                       <th>商品ID</th>
+                       <th>分类序号</th>
+                       <th>商品名称</th>
+                       <th>商品备注</th>
+                       <th>商品图片</th>
+                       <th>状态</th>
+                       <th>商品价格</th>
+                       <th>库存数量</th>
+                       <th>操作账户</th>
+                   </tr>
+               </table>
+           </div>
+       </div>
+   </div>
+</body>
+<script src="../js/jquery-3.3.1.js"></script>
+<script>
+    $(function () {
+        $.get(
+            "/manage/product/list.do",
+            function (dl) {
+                if (dl.status!==0){
+                    alert(dl.mag);
+                } else{
+                    for (var i = 0; i < dl.data.length; i++) {
+                      if (dl.data[i].pstatus===1) {
+                          var qw = "上架";
+                          var qq = "下架"
+                      }else{
+                          qw="下架";
+                          qq="上架"
+                      }
+                        var a = "<tr><td>"
+                            +dl.data[i].pid+"</td><td>"//ID
+                            +dl.data[i].pcategoruID+"</td><td>"//分类的ID
+                            +dl.data[i].pname+"</td><td>"//产品名字
+                            +dl.data[i].psubtitle+"</td><td>"//产品的副标题
+                            +dl.data[i].pmainlmage+"</td><td>"/*//产品的图片*/
+                            +qw+"</td><td>"/*//产品的上架是否*/
+                            +dl.data[i].pprice+"</td><td>"/*//价格*/
+                            +dl.data[i].pstick+"</td><td>"+/*//库存数量*/
+                            "<button type='button' class='SX' name='"+qq+"' value='"+dl.data[i].pid+"'  style=\"background-color: red\" onclick='javascrtpt:window.location.href=\"ProductList.html\"'>"+qq+"</button>"+
+                            "<button type='button' class='XX' value='"+dl.data[i].pid+"' style=\"background-color: black\" onclick='javascrtpt:window.location.href=\"ProductList.html\"'>详情</button >"+"</td></tr>";
+                        $("#BBBAA").append(a);
+
+                    }
+                }
+            },"json"
+        )
+    });
+    //上架按钮
+    $("#BBBAA").on('click', '.SX',function(){
+        var dd = $(this).val();
+        var da = $(this).attr("name");
+        if (da ==="上架") {
+            var aa = 1;
+            // alert(aa)
+        }else {
+            aa = 0 ;
+            // alert(aa)
+    }
+        $.post(
+            "/manage/product/set_sale_status.do",
+            {productId:dd,status:aa},
+            function (aa) {
+                if (aa.data === 1) {
+                    alert("成功了")
+                }else {
+                    alert("失败了")
+                }
+            }
+        )
+    });
+    // //启用按钮
+    // $("#BBBAA").on('click', '.XX',function(){
+    //     alert($(this).val());
+    //     var dd = $(this).val();
+    //     $.post(
+    //         "/manage/user/set_sale_status.do",
+    //         {uid:dd},
+    //         function (aa) {
+    //             if (aa.data === 1) {
+    //                 alert("成功了")
+    //             }else {
+    //                 alert("失败了")
+    //             }
+    //         }
+    //     )
+    // });
+
+    // $("#name0").click(function () {
+    //     alert("sadsada")
+    //   var dd = $("#name0").val()
+    // $.get(
+    //     "/manage/user/disableuser.do",
+    //     {uid:$("#name0").val()},
+    //     function (dl) {
+    //         if (dl.data === 1){
+    //             alert("成功了")
+    //         } else{
+    //             alert("失败了")
+    //         }
+    //     }
+    // )
+    // });
+
+</script>
+</html>

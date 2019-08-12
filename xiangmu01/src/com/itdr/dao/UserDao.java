@@ -64,4 +64,17 @@ public class UserDao {
         }
         return u;//返回成功否，成功为1
     }
+//开启禁用的方法
+    public Integer noupdateByUid(Integer uid) {
+        ComboPooledDataSource co = PoolUtil.getCom();//使用自己创建的工具类创建连接池
+        QueryRunner qr = new QueryRunner(co);//使用DBUtils
+        String Sql = "update users set uzc = 0 where uid = ?";//SQL语句
+        Integer u = null;//接收返回值
+        try {
+            u =  qr.update(Sql,uid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return u;//返回成功否，成功为1
+    }
 }

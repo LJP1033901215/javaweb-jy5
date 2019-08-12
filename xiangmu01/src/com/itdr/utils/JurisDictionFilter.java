@@ -40,7 +40,7 @@ public class JurisDictionFilter implements Filter {
             return;
         }
 //        无意义
-        if (user.getUyhlx()!=1 ){
+        if (!user.getUyhlx().equals("1") ){
             rs.setStatus(3);
             rs.setMag("没有操作权限");
             resp.getWriter().write(rs.toString());
