@@ -45,9 +45,12 @@ public class UsersCotroller extends HttpServlet {
             case"disableuser":
                 rs = disableuserDo(request);
                 break;
-            case"nodisableuser":
-                rs = nodisableuserDo(request);
+            case"nosession":
+                rs = nosession(request);
                 break;
+//            case"nodisableuser":
+//                rs = nodisableuserDo(request);
+//                break;
 //            case"Sessionone":
 //                rs = Sessionone(request);
 //                break;
@@ -58,6 +61,9 @@ public class UsersCotroller extends HttpServlet {
 //       response.getWriter().write(rs.toString());//返回
 
     }
+
+
+
     //获取所有用户列表的请求
     private ResponseCode listDO(HttpServletRequest request ){
         ResponseCode rs = new ResponseCode();//创建了ResponseCode的对象
@@ -70,7 +76,7 @@ public class UsersCotroller extends HttpServlet {
         String pageNum = request.getParameter("pageNum");//通过请求向前端页面获取名字
 
         rs = us.selectAll(pageSize, pageNum);//获取所有的用户放入到封装的方法类中统一返回
-        request.setAttribute("uli",rs);//将数据存放在请求的域对象内部
+//        request.setAttribute("uli",rs);//将数据存放在请求的域对象内部
 
         //调用业务层处理业务
         return rs;
@@ -88,33 +94,36 @@ public class UsersCotroller extends HttpServlet {
         //调用业务层处理业务
        return rs;
     }
-    //禁用用户的方法
+    //用户开启和禁用的方法
     private ResponseCode disableuserDo(HttpServletRequest request) {
-        String uid = request.getParameter("uid");
-        ResponseCode rs = us.selectOne(uid);
-        HttpSession session = request.getSession();//获取Session的状态
-        Users users =(Users) session.getAttribute("user");//获取当前的登陆信息，如果是登陆状态则不会返回空，若未登陆就会返回空
-        if (users==null){//判断Session的返回对象是不是空，若果是空则证明没有登陆
-            rs =  ResponseCode.defeatdRS(3,"当前未登录");
-            return rs;
-        }
-        if (!users.getUyhlx().equals("1")){//判断Session的返回数据中用户权限是不是够，若不够则返回错误
-            rs =  ResponseCode.defeatdRS(3,"访问权限不够");
-            return rs;
-        }//如果没有问题则返回禁用对象的信息。
-        System.out.println(uid);
-        rs.setStatus(0);
+        String uids = request.getParameter("uid");//获取页面的uid
+        String states = request.getParameter("states");//获取页面要改变的状态码
+        HttpSession session = request.getSession();//获取页面的Session信息
+        Users user = (Users) session.getAttribute("user");//获取页面的信息
+        String uyhlxs = user.getUyhlx();//获取权限
+        Integer uid = Integer.parseInt(uids);//转换成Integer类型的，为了在业务层实现方法的重载
+        Integer state = Integer.parseInt(states);//同上
+        ResponseCode rs = us.selectOne(uid,state,uyhlxs);
+//        rs.setStatus(0);
         return rs;
 
     }
-    //启用的方法
-    private ResponseCode nodisableuserDo(HttpServletRequest request) {
-        String uid = request.getParameter("uid");
-        ResponseCode rs = us.noselectOne(uid);
-        //如果没有问题则返回禁用对象的信息。
-        rs.setStatus(0);
+    //删除Session的方法
+    private ResponseCode nosession(HttpServletRequest request) {
+        ResponseCode rs =new ResponseCode();
+        HttpSession session = request.getSession();
+        session.invalidate();
+        rs.setMag("Session已经删除了");
         return rs;
     }
+//    //启用的方法
+//    private ResponseCode nodisableuserDo(HttpServletRequest request) {
+//        String uid = request.getParameter("uid");
+//        ResponseCode rs = us.noselectOne(uid);
+//        //如果没有问题则返回禁用对象的信息。
+//        rs.setStatus(0);
+//        return rs;
+//    }
 
 //
 // 获得Session的方法

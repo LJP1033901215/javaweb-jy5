@@ -16,7 +16,7 @@ public class UserDao {
     public List<Users> selctALL(String pageSize, String pageNum) {
         ComboPooledDataSource co = PoolUtil.getCom();//调用自己创建的连接池工具类中的方法
         QueryRunner qr = new QueryRunner(co);//使用DBUtils传入连接池进去
-        String Sql = "select * from users ";//创建sql语句
+        String Sql = "select * from users order by uyhlx DESC ";//创建sql语句
         List<Users> li = null;
         try {
            li = qr.query(Sql, new BeanListHandler<Users>(Users.class));//使用连接池的方法
@@ -52,29 +52,29 @@ public class UserDao {
         return u;
     }
     //根据uid禁用一个用户
-    public Integer updateByUid(Integer uid) {
+    public Integer updateByUid(Integer uid,Integer state) {
         ComboPooledDataSource co = PoolUtil.getCom();//使用自己创建的工具类创建连接池
         QueryRunner qr = new QueryRunner(co);//使用DBUtils
-        String Sql = "update users set uzc = 1 where uid = ?";//SQL语句
+        String Sql = "update users set uzc = ? where uid = ?";//SQL语句
         Integer u = null;//接收返回值
         try {
-             u =  qr.update(Sql,uid);
+             u =  qr.update(Sql,state,uid);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return u;//返回成功否，成功为1
     }
 //开启禁用的方法
-    public Integer noupdateByUid(Integer uid) {
-        ComboPooledDataSource co = PoolUtil.getCom();//使用自己创建的工具类创建连接池
-        QueryRunner qr = new QueryRunner(co);//使用DBUtils
-        String Sql = "update users set uzc = 0 where uid = ?";//SQL语句
-        Integer u = null;//接收返回值
-        try {
-            u =  qr.update(Sql,uid);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return u;//返回成功否，成功为1
-    }
+//    public Integer noupdateByUid(Integer uid) {
+//        ComboPooledDataSource co = PoolUtil.getCom();//使用自己创建的工具类创建连接池
+//        QueryRunner qr = new QueryRunner(co);//使用DBUtils
+//        String Sql = "update users set uzc = 0 where uid = ?";//SQL语句
+//        Integer u = null;//接收返回值
+//        try {
+//            u =  qr.update(Sql,uid);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return u;//返回成功否，成功为1
+//    }
 }
